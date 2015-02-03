@@ -33,15 +33,17 @@ namespace GitHubServices.Test.Controllers
       var printer = GetTestPrinter();
       Toc actualToc = null;
       PAssert.IsTrue(() => response.TryGetContentValue(out actualToc));
-      PAssert.IsTrue(() => printer.PrintObject(expectedToc, "") == printer.PrintObject(actualToc, ""));
+      Assert.AreEqual(printer.PrintObject(expectedToc), printer.PrintObject(actualToc));
     }
 
     [Test]
     public void ContentContainsSingleHeader()
     {
       // Arrange
-      var expectedToc = new Toc { ToCValueForPasting = @"# Table of Content
-* Right Here" 
+      var expectedToc = new Toc
+      {
+        ToCValueForPasting = @"# Table of Content
+* Right Here"
       };
       const string content = @"There is a single header
 # Right Here
@@ -54,17 +56,19 @@ But nothing more";
       var printer = GetTestPrinter();
       Toc actualToc = null;
       PAssert.IsTrue(() => response.TryGetContentValue(out actualToc));
-      PAssert.IsTrue(() => printer.PrintObject(expectedToc, "") == printer.PrintObject(actualToc, ""));
+      Assert.AreEqual(printer.PrintObject(expectedToc), printer.PrintObject(actualToc));
     }
 
     [Test]
     public void ContentContainsMultipleHeaders()
     {
       // Arrange
-      var expectedToc = new Toc { ToCValueForPasting = @"# Table of Content
+      var expectedToc = new Toc
+      {
+        ToCValueForPasting = @"# Table of Content
 * One
 * Two
-* Three" 
+* Three"
       };
       const string content = @"There contains multiple headers
 # One
@@ -79,7 +83,7 @@ But nothing more
       var printer = GetTestPrinter();
       Toc actualToc = null;
       PAssert.IsTrue(() => response.TryGetContentValue(out actualToc));
-      PAssert.IsTrue(() => printer.PrintObject(expectedToc, "") == printer.PrintObject(actualToc, ""));
+      Assert.AreEqual(printer.PrintObject(expectedToc), printer.PrintObject(actualToc));
     }
 
     private static Stateprinter GetTestPrinter()
